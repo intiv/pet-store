@@ -1,6 +1,6 @@
 const express = require('express');
 const path = require('path');
-
+const cors = require('cors');
 const app = express();
 const port = process.env.PORT || 5000;
 
@@ -26,7 +26,7 @@ app.get('/api/customers', (req, res) => {
 });
 
 
-app.listen(port, (req, res) => {
+app.listen(port, cors(), (req, res) => {
     console.log(`App listening on port ${port}`);
 });
 
