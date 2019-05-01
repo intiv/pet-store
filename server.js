@@ -1,42 +1,64 @@
 const express = require('express');
 const path = require('path');
-const cors = require('cors');
+
+const mongoose = require('mongoose');
+const Pet = require('./Schemas/Pet');
+
 const app = express();
 const port = process.env.PORT || 5000;
 
-app.get('/api/customers', (req, res) => {
-  const gente = [
-    {
-      id: 1,
-      firstName: 'Inti',
-      secondName: 'Velásquez'
-    },
-    {
-      id: 2,
-      firstName: 'Juany',
-      secondName: 'Ramirez'
-    },
-    {
-      id: 3,
-      firstName: 'Walther',
-      secondName: 'Carrasco'
+mongoose.connect('mongodb://admin:admin123@ds019966.mlab.com:19966/pet-store', {useNewUrlParser: true});
+
+let newPets = [
+  //Crear nuevas mascotas aquí y descomentar insertMany en get('/') para insertarlos a la db
+]
+
+app.get('/', (req, res) => {
+  /*Pet.insertMany(pets, (err, docs) => {
+    if(err){
+      throw err;
     }
-  ]
-  res.json(gente);
+  })*/
+  res.send('go to /api/pets to see all pets');
 });
 
+//Get all pets
+app.get('/api/pets', (req, res) => {
+  Pet.find({}).lean().exec((err, pets) =>{
+    if(err){
+      throw err;
+    }
+    res.json(pets);
+  }); 
+});
+
+//Adopt a pet by it's id, deletes it from the db and returns remaining pets
+app.get('/api/pets/adopt/:id', (req, res) => {
+  Pet.deleteOne({id: parseInt(req.params.id)}).lean().exec((err, pet) => {
+    if(err){
+      throw err;
+    }
+  });
+  Pet.find({}).lean().exec((err, pets) =>{
+    if(err){
+      throw err;
+    }
+    res.json(pets);
+  });
+})
+
 if (process.env.NODE_ENV === 'production') {
-  // Exprees will serve up production assets
+
+  //Serve up production assets
   app.use(express.static('client/build'));
 
-  // Express serve up index.html file if it doesn't recognize route
+  //Serve index.html if route not recognized
   app.get('*', (req, res) => {
     res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
   });
 }
 
-
-app.listen(port, cors(), (req, res) => {
+app.listen(port, (req, res) => {
     console.log(`App listening on port ${port}`);
 });
 
