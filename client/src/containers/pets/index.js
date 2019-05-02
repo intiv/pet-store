@@ -10,13 +10,13 @@ class Pets extends Component {
   };
 
   componentDidMount() {
-    fetch('http://localhost:5000/api/pets')
+    fetch('/api/pets')
       .then((res) => res.json())
       .then((pets) => this.setState({ ...this.state, pets }));
   }
 
   handleAdoptButton = (id) => {
-    fetch(`http://localhost:5000/api/pets/adopt/${id}`)
+    fetch(`/api/pets/adopt/${id}`)
       .then((res) => res.json())
       .then(() => {
         const newPets = this.state.pets.filter((pet) => pet.id !== id);

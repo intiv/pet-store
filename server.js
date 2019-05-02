@@ -83,17 +83,17 @@ app.use((req, res, next) => {
   next();
 });
 
-app.get('/', async (req, res) => {
-  try {
-    await Pet.deleteMany({}, (err) => console.log('deleted pets'));
-    await Pet.insertMany(newPets, (err) => console.log('added pets'));
-  } catch (err) {
-    if (err) {
-      throw err;
-    }
-  }
-  res.send('go to /api/pets to see all pets');
-});
+// app.get('/', async (req, res) => {
+//   try {
+//     await Pet.deleteMany({}, (err) => console.log('deleted pets'));
+//     await Pet.insertMany(newPets, (err) => console.log('added pets'));
+//   } catch (err) {
+//     if (err) {
+//       throw err;
+//     }
+//   }
+//   res.send('go to /api/pets to see all pets');
+// });
 
 //Get all pets
 app.get('/api/pets', (req, res) => {
