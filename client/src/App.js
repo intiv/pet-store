@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
 import './App.css';
-import Home from './components/Home/Home';
-import Pets from './components/Pets/Pets';
+import PetCard from './components/PetCard/PetCard';
 class App extends Component {
-  render(){
+  render() {
     return (
-      <div className="App">
-        <h1>React App</h1>
-        <Home></Home>
-        <Pets></Pets>
+      <div inverse style={{ backgroundColor: '#000' }} className="App">
+        <h1 inverse style={{ color: '#FFF' }}>Adopta tu Mascota</h1>
+        <br></br>
+        <div inverse style={{ backgroundColor: '#000' }} className="container">
+          <PetCard></PetCard>
+        </div>
       </div>
     );
   }
